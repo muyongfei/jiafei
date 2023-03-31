@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+<style>
+  img{
+    width: 100px;
+    height: 100px;
+  }
+</style>
+<body>
+  <div id="image-container">
+    <img src="https://img1.baidu.com/it/u=999074466,1525171260&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=333" draggable="true" />
+    <img src="https://img2.baidu.com/it/u=770673775,3519772518&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800" draggable="true" />
+    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201606%2F18%2F20160618225210_hauzQ.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1682749253&t=32c67a5e4ac1bd4b9ff8dd43419d6311" draggable="true" />
+    <img src="https://img2.baidu.com/it/u=1662970276,3402219452&fm=253&fmt=auto&app=120&f=JPEG?w=1421&h=800" draggable="true" />
+  </div>
+
+  <script>
+   $(function() {
+  var dragging = null;
+  var imageContainer = $('#image-container');
+
+  // 绑定拖放事件
+  imageContainer.on('dragstart', 'img', function(event) {
+    dragging = event.target;
+  });
+
+  imageContainer.on('dragover', function(event) {
+    event.preventDefault();
+  });
+
+  imageContainer.on('drop', function(event) {
+    event.preventDefault();
+    if (dragging) {
+      var dropTarget = event.target;
+      while (dropTarget.tagName != 'IMG') {
+        dropTarget = dropTarget.parentNode;
+      }
+      if (dragging != dropTarget) {
+        var draggingIndex = $(dragging).index();
+        var dropTargetIndex = $(dropTarget).index();
+        if (draggingIndex < dropTargetIndex) {
+          $(dragging).insertAfter(dropTarget);
+        } else {
+          $(dragging).insertBefore(dropTarget);
+        }
+      }
+      dragging = null;
+    }
+  });
+});
+  </script>
+</body>
+</html>
